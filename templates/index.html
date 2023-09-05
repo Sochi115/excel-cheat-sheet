@@ -8,8 +8,14 @@
     <script src="https://unpkg.com/htmx.org@1.9.5" integrity="sha384-xcuj3WpfgjlKF+FXhSQFQ0ZNr39ln+hwjN3npfM9VBnUskLolQAcN80McRIVOPuO" crossorigin="anonymous"></script>
     <link href="css/style.css" rel="stylesheet">
   </head>
-  <body>
-    <h1>Excel Cheat Sheet</h1>
-    <input type="searchbar" name="searchbar">
+  <body class="h-screen w-screen">
+    <header class="grid h-20 bg-orange-200 place-content-center">
+      <h1 class="text-xl flex-initial font-bold">Excel Cheat Sheet</h1>
+    </header>
+    <div class="h-full bg-green-200">
+      <div class="grid place-content-center">
+        <input class="outline-black w-6/12" type="searchbar" name="searchbar">
+      </div>
+    </div>
   </body>
 </html>
