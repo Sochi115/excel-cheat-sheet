@@ -7,10 +7,22 @@ import (
 	"net/http"
 )
 
+type Film struct {
+	Title    string
+	Director string
+}
+
 func mainPage(w http.ResponseWriter, r *http.Request) {
-	// Todo: Add a show template here
 	tmpl := template.Must(template.ParseFiles("templates/index.html"))
-	tmpl.Execute(w, nil)
+
+	films := map[string][]Film{
+		"Films": {
+			{Title: "The Godfather", Director: "Francis Ford Coppola"},
+			{Title: "Blade Runner", Director: "Ridley Scott"},
+			{Title: "The Thing", Director: "John Carpenter"},
+		},
+	}
+	tmpl.Execute(w, films)
 }
 
 func main() {
