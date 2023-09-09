@@ -1,0 +1,175 @@
+UNIQUE,Returns a list of unique values in a list or range,"UNIQUE(array, [by_col], [exactly_once])",NONE
+XLOOKUP,"Replaces VLOOKUP, HLOOKUP, and INDEX / MATCH","XLOOKUP(lookup_value,lookup_array,return_array,[match_mode],[search_mode])",NONE
+AND,Checks whether all conditions are met. TRUE/FALSE,"AND(logical1,logical2)",Logical
+IF,"If condition is met, do something, if not, do something else.","IF(logical_test,value_if_true,value_if_false)",Logical
+IFERROR,If result is an error then do something else.,"IFERROR(VALUE,value_if_error)",Logical
+NOT,Changes TRUE to FALSE and FALSE to TRUE.,NOT(logical),Logical
+OR,Checks whether any conditions are met. TRUE/FALSE,"OR(logical1,logical2)",Logical
+XOR,Checks whether one and only one condition is met. TRUE/FALSE,"XOR(logical1,logical2)",Logical
+FALSE,The logical value: FALSE.,FALSE,Lookup & Reference
+TRUE,The logical value: TRUE.,TRUE,Lookup & Reference
+ADDRESS,Returns a cell address as text.,"ADDRESS(row_num,column_num,abs_num,C1,sheet_text)",Lookup & Reference
+AREAS,Returns the number of areas in a reference.,AREAS(reference),Lookup & Reference
+CHOOSE,Chooses a value from a list based on it's position number.,"CHOOSE(index_num,value1,value2)",Lookup & Reference
+COLUMN,Returns the column number of a cell reference.,COLUMN(reference),Lookup & Reference
+COLUMNS,Returns the number of columns in an array.,COLUMNS(array),Lookup & Reference
+HLOOKUP,Lookup a value in the first row and return a value.,"HLOOKUP(lookup_value,table_array,row_index_num,range_lookup)",Lookup & Reference
+HYPERLINK,Creates a clickable link.,"HYPERLINK(link_location,friendly_name)",Lookup & Reference
+INDEX,Returns a value based on it's column and row numbers.,"INDEX(array,row_num,column_num)",Lookup & Reference
+INDIRECT,Creates a cell reference from text.,"INDIRECT(ref_text,C1)",Lookup & Reference
+LOOKUP,Looks up values either horizontally or vertically.,"LOOKUP(lookup_value,lookup_vector,result_vector)",Lookup & Reference
+MATCH,Searches for a value in a list and returns its position.,"MATCH(lookup_value,lookup_array,match_type)",Lookup & Reference
+OFFSET,Creates a reference offset from a starting point.,"OFFSET(reference,rows,cols,height,width)",Lookup & Reference
+ROW,Returns the row number of a cell reference.,ROW(reference),Lookup & Reference
+ROWS,Returns the number of rows in an array.,ROWS(array),Lookup & Reference
+TRANSPOSE,Flips the oriention of a range of cells.,TRANSPOSE(array),Lookup & Reference
+VLOOKUP,Lookup a value in the first column and return a value.,"VLOOKUP(lookup_value,table_array,col_index_num,range_lookup)",Lookup & Reference
+DATE,"Returns a date from year, month, and day.","DATE(year,month,day)",Date & Time
+DATEDIF,"Number of days, months or years between two dates.",DATEDIF,Date & Time
+DATEVALUE,Converts a date stored as text into a valid date,DATEVALUE(date_text),Date & Time
+DAY,Returns the day as a number (1-31).,DAY(serial_number),Date & Time
+DAYS,Returns the number of days between two dates.,"DAYS(end_date,start_date)",Date & Time
+DAYS360,Returns days between 2 dates in a 360 day year.,"DAYS360(start_date,end_date,method)",Date & Time
+EDATE,"Returns a date, n months away from a start date.","EDATE(start_date,months)",Date & Time
+EOMONTH,"Returns the last day of the month, n months away date.","EOMONTH(start_date,months)",Date & Time
+HOUR,Returns the hour as a number (0-23).,HOUR(serial_number),Date & Time
+MINUTE,Returns the minute as a number (0-59).,MINUTE(serial_number),Date & Time
+MONTH,Returns the month as a number (1-12).,MONTH(serial_number),Date & Time
+NETWORKDAYS,Number of working days between 2 dates.,"NETWORKDAYS(start_date,end_date,holidays)",Date & Time
+NETWORKDAYS.INTL,"Working days between 2 dates, custom weekends. ","NETWORKDAYS.INTL(start_date,end_date,weekend,holidays)",Date & Time
+NOW,Returns the current date and time.,NOW(),Date & Time
+SECOND,Returns the second as a number (0-59),SECOND(serial_number),Date & Time
+TIME,"Returns the time from a hour, minute, and second.","TIME(hour,minute,second)",Date & Time
+TIMEVALUE,Converts a time stored as text into a valid time.,TIMEVALUE(time_text),Date & Time
+TODAY,Returns the current date.,TODAY(),Date & Time
+WEEKDAY,Returns the day of the week as a number (1-7).,"WEEKDAY(serial_number,return_type)",Date & Time
+WEEKNUM,Returns the week number in a year (1-52).,"WEEKNUM(serial_number,return_type)",Date & Time
+WORKDAY,The date n working days from a date.,"WORKDAY(start_date,days,holidays)",Date & Time
+WORKDAY.INTL,"The date n working days from a date, custom weekends.","WORKDAY.INTL(start_date,days,weekend,holidays)",Date & Time
+YEAR,Returns the year.,YEAR(serial_number),Date & Time
+YEARFRAC,Returns the fraction of a year between 2 dates.,"YEARFRAC(start_date,end_date,basis)",Date & Time
+CONVERT,Convert number from one unit to another.,"CONVERT(number,from_unit,to_unit)",Engineering
+FV,Calculates the future value.,"FV(rate,nper,pmt,pv,type)",Financial
+PV,Calculates the present value.,"PV(rate,nper,pmt,fv,type)",Financial
+NPER,Calculates the total number of payment periods.,"NPER(rate,pmt,pv,fv,type)",Financial
+PMT,Calculates the payment amount.,"PMT(rate,nper,pv,fv,type)",Financial
+RATE,Calculates the interest Rate.,"RATE(nper,pmt,pv,fv,type,guess)",Financial
+NPV,Calculates the net present value.,"NPV(rate,value1,value2)",Financial
+IRR,The internal rate of return for a set of periodic CFs.,"IRR(values,guess)",Financial
+XIRR,The internal rate of return for a set of non-periodic CFs.,"XIRR(values,dates,guess)",Financial
+PRICE,Calculates the price of a bond.,"PRICE(settlement,maturity,rate,yld,redemption,FREQUENCY,basis)",Financial
+YIELD,Calculates the bond yield.,"YIELD(settlement,maturity,rate,pr,redemption,FREQUENCY,basis)",Financial
+INTRATE,The interest rate of a fully invested security.,"INTRATE(settlement,maturity,investment,redemption,basis)",Financial
+CELL,Returns information about a cell.,"CELL(info_type,reference)",Information
+ERROR.TYPE,Returns a value representing the cell error.,ERROR.TYPE(error_val),Information
+ISBLANK,Test if cell is blank. TRUE/FALSE,ISBLANK(VALUE),Information
+ISERR,"Test if cell value is an error, ignores #N/A. TRUE/FALSE",ISERR(VALUE),Information
+ISERROR,Test if cell value is an error. TRUE/FALSE,ISERROR(VALUE),Information
+ISEVEN,Test if cell value is even. TRUE/FALSE,ISEVEN(number),Information
+ISFORMULA,Test if cell is a formula. TRUE/FALSE,ISFORMULA(reference),Information
+ISLOGICAL,Test if cell is logical (TRUE or FALSE). TRUE/FALSE,ISLOGICAL(VALUE),Information
+ISNA,Test if cell value is #N/A. TRUE/FALSE,ISNA(VALUE),Information
+ISNONTEXT,Test if cell is not text (blank cells are not text). TRUE/FALSE,ISNONTEXT(VALUE),Information
+ISNUMBER,Test if cell is a number. TRUE/FALSE,ISNUMBER(VALUE),Information
+ISODD,Test if cell value is odd. TRUE/FALSE,ISODD(number),Information
+ISREF,Test if cell value is a reference. TRUE/FALSE,ISREF(VALUE),Information
+ISTEXT,Test if cell is text. TRUE/FALSE,ISTEXT(VALUE),Information
+N,Converts a value to a number.,N(VALUE),Information
+NA,Returns the error: #N/A.,NA(),Information
+TYPE,Returns the type of value in a cell.,TYPE(VALUE),Information
+ABS,Calculates the absolute value of a number.,ABS(number),Math
+AGGREGATE,Define and perform calculations for a database or a list.,"AGGREGATE(function_num,options,array,k)",Math
+CEILING,"Rounds a number up, to the nearest specified multiple.","CEILING(number,significance)",Math
+COS,Returns the cosine of an angle.,COS(number),Math
+DEGREES,Converts radians to degrees.,DEGREES(angle),Math
+DSUM,Sums database records that meet certain criteria.,"DSUM(database,field,criteria)",Math
+EVEN,Rounds to the nearest even integer.,EVEN(number),Math
+EXP,Calculates the exponential value for a given number.,EXP(number),Math
+FACT,Returns the factorial.,FACT(number),Math
+FLOOR,"Rounds a number down, to the nearest specified multiple.","FLOOR(number,significance)",Math
+GCD,Returns the greatest common divisor.,"GCD(number1,number2)",Math
+INT,Rounds a number down to the nearest integer.,INT(number),Math
+LCM,Returns the least common multiple.,"LCM(number1,number2)",Math
+LN,Returns the natural logarithm of a number.,LN(number),Math
+LOG,Returns the logarithm of a number to a specified base.,"LOG(number,base)",Math
+LOG10,Returns the base-10 logarithm of a number.,LOG10(number),Math
+MOD,Returns the remainder after dividing.,"MOD(number,divisor)",Math
+MROUND,Rounds a number to a specified multiple.,"MROUND(number,multiple)",Math
+ODD,Rounds to the nearest odd integer.,ODD(number),Math
+PI,The value of PI.,PI(),Math
+POWER,Calculates a number raised to a power.,"POWER(number,power)",Math
+PRODUCT,Multiplies an array of numbers.,"PRODUCT(number1,number2)",Math
+QUOTIENT,Returns the integer result of division.,"QUOTIENT(numerator,denominator)",Math
+RADIANS,Converts an angle into radians.,RADIANS(angle),Math
+RAND,Calculates a random number between 0 and 1.,RAND(),Math
+RANDBETWEEN,Calculates a random number between two numbers.,"RANDBETWEEN(bottom,top)",Math
+ROUND,Rounds a number to a specified number of digits.,"ROUND(number,num_digits)",Math
+ROUNDDOWN,Rounds a number down (towards zero).,"ROUNDDOWN(number,num_digits)",Math
+ROUNDUP,Rounds a number up (away from zero).,"ROUNDUP(number,num_digits)",Math
+SIGN,Returns the sign of a number.,SIGN(number),Math
+SIN,Returns the sine of an angle.,SIN(number),Math
+SQRT,Calculates the square root of a number.,SQRT(number),Math
+SUBTOTAL,Returns a summary statistic for a series of data.,"SUBTOTAL(function_num,REH1)",Math
+SUM,Adds numbers together.,"SUM(number1,number2)",Math
+SUMIF,Sums numbers that meet a criteria.,"SUMIF(range,criteria,sum_range)",Math
+SUMIFS,Sums numbers that meet multiple criteria.,"SUMIFS(sum_range,criteria_range,criteria)",Math
+SUMPRODUCT,Multiplies arrays of numbers and sums the resultant array.,"SUMPRODUCT(array1,array2,array3)",Math
+TAN,Returns the tangent of an angle.,TAN(number),Math
+TRUNC,Truncates a number to a specific number of digits.,"TRUNC(number,num_digits)",Math
+AVERAGE,Averages numbers.,"AVERAGE(number1,number2)",Stats
+AVERAGEA,"Averages numbers. Includes text & FALSE =0, TRUE =1.","AVERAGEA(value1,value2)",Stats
+AVERAGEIF,Averages numbers that meet a criteria.,"AVERAGEIF(range,criteria,average_range)",Stats
+AVERAGEIFS,Averages numbers that meet multiple criteria.,"AVERAGEIFS(average_range,criteria_range,criteria)",Stats
+CORREL,Calculates the correlation of two series.,"CORREL(array1,array2)",Stats
+COUNT,Counts cells that contain a number.,"COUNT(value1,value2)",Stats
+COUNTA,Count cells that are non-blank.,"COUNTA(value1,value2)",Stats
+COUNTBLANK,Counts cells that are blank.,COUNTBLANK(range),Stats
+COUNTIF,Counts cells that meet a criteria.,"COUNTIF(range,criteria)",Stats
+COUNTIFS,Counts cells that meet multiple criteria.,"COUNTIFS(criteria_range,criteria)",Stats
+FORECAST,Predict future y-values from linear trend line.,"FORECAST(x,known_y's,known_x's)",Stats
+FREQUENCY,Counts values that fall within specified ranges.,"FREQUENCY(data_array,bins_array)",Stats
+GROWTH,Calculates Y values based on exponential growth.,"GROWTH(known_ys,known_x,new_x,const)",Stats
+INTERCEPT,Calculates the Y intercept for a best-fit line.,"INTERCEPT(known_ys,known_xs)",Stats
+LARGE,Returns the kth largest value.,"LARGE(array,k)",Stats
+LINEST,Returns statistics about a trendline.,"LINEST(known_ys,known_xs,const,stats)",Stats
+MAX,Returns the largest number.,"MAX(number1,number2)",Stats
+MEDIAN,Returns the median number.,"MEDIAN(number1,number2)",Stats
+MIN,Returns the smallest number.,"MIN(number1,number2)",Stats
+MODE,Returns the most common number.,"MODE(number1,number2)",Stats
+PERCENTILE,Returns the kth percentile.,"PERCENTILE(array,k)",Stats
+PERCENTILE.INC,Returns the kth percentile. Where k is inclusive.,"PERCENTILE.INC(array,k)",Stats
+PERCENTILE.EXC,Returns the kth percentile. Where k is exclusive.,"PERCENTILE.EXC(array,k)",Stats
+QUARTILE,Returns the specified quartile value.,"QUARTILE(array,quart)",Stats
+QUARTILE.INC,Returns the specified quartile value. Inclusive.,"QUARTILE.INC(array,quart)",Stats
+QUARTILE.EXC,Returns the specified quartile value. Exclusive.,"QUARTILE.EXC(array,quart)",Stats
+RANK,Rank of a number within a series.,"RANK(number,ref,order)",Stats
+RANK.AVG,Rank of a number within a series. Averages.,"RANK.AVG(number,ref,order)",Stats
+RANK.EQ,Rank of a number within a series. Top Rank.,"RANK.EQ(number,ref,order)",Stats
+SLOPE,Calculates the slope from linear regression.,"SLOPE(known_ys,known_xs)",Stats
+SMALL,Returns the kth smallest value.,"SMALL(array,k)",Stats
+STDEV,Calculates the standard deviation.,"STDEV(number1,number2)",Stats
+STDEV.P,Calculates the SD of an entire population.,"STDEV.P(number1,number2)",Stats
+STDEV.S,Calculates the SD of a sample.,"STDEV.S(number1,number2)",Stats
+STDEVP,Calculates the SD of an entire population,"STDEVP(number1,number2)",Stats
+TREND,Calculates Y values based on a trendline.,"TREND(known_ys,known_xs,new_xs,const)",Stats
+CHAR,Returns a character specified by a code.,CHAR(number),Text
+CLEAN,Removes all non-printable characters.,CLEAN(text),Text
+CODE,Returns the numeric code for a character.,CODE(text),Text
+CONCATENATE,Combines text together.,"CONCATENATE(text1,text2)",Text
+DOLLAR,Converts a number to text in currency format.,"DOLLAR(number,decimals)",Text
+EXACT,Test if cells are exactly equal. Case-sensitive. TRUE/FALSE,"EXACT(text1,text2)",Text
+FIND,Locates position of text within a cell.Case-sensitive.,"FIND(find_text,within_text,start_num)",Text
+LEFT,Truncates text a number of characters from the left.,"LEFT(text,num_chars)",Text
+LEN,Counts number of characters in text.,LEN(text),Text
+LOWER,Converts text to lower case.,LOWER(text),Text
+MID,Extracts text from the middle of a cell.,"MID(text,start_num,num_chars)",Text
+PROPER,Converts text to proper case.,PROPER(text),Text
+REPLACE,Replaces text based on it's location.,"REPLACE(old_text,start_num,num_chars,new_text)",Text
+REPT,Repeats text a number of times.,"REPT(text,number_times)",Text
+RIGHT,Truncates text a number of characters from the right.,"RIGHT(text,num_chars)",Text
+SEARCH,Locates position of text within a cell.Not Case-sensitive.,"SEARCH(find_text,within_text,start_num)",Text
+SUBSTITUTE,Finds and replaces text. Case-sensitive.,"SUBSTITUTE(text,old_text,new_text,instance_num)",Text
+TEXT,Converts a value into text with a specific number format.,"TEXT(VALUE,format_text)",Text
+TRIM,Removes all extra spaces from text.,TRIM(text),Text
+UPPER,Converts text to upper case.,UPPER(text),Text
+VALUE,Converts a number stored as text into a number.,VALUE(text),Text
