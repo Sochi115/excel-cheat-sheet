@@ -3,7 +3,6 @@ package main
 import (
 	"log"
 	"strings"
-	"sync"
 )
 
 func (a *App) getTenEntriesFromDb() []ExcelCommand {
@@ -29,8 +28,7 @@ func (a *App) getTenEntriesFromDb() []ExcelCommand {
 	return queried_commands
 }
 
-func (a *App) getFunctionsContaining(function_string string, wg *sync.WaitGroup) []ExcelCommand {
-	wg.Add(1)
+func (a *App) getFunctionsContaining(function_string string) []ExcelCommand {
 	q := `SELECT * FROM excel_commands AS e WHERE LOWER(e.Function) LIKE '%' || $1 || '%'`
 
 	command_rows, err := a.DB.Query(q, strings.ToLower(function_string))
@@ -54,13 +52,11 @@ func (a *App) getFunctionsContaining(function_string string, wg *sync.WaitGroup)
 
 		queried_commands = append(queried_commands, ec)
 	}
-	defer wg.Done()
 
 	return queried_commands
 }
 
-func (a *App) getDescriptionsContaining(function_string string, wg *sync.WaitGroup) []ExcelCommand {
-	wg.Add(1)
+func (a *App) getDescriptionsContaining(function_string string) []ExcelCommand {
 	q := `SELECT * FROM excel_commands AS e WHERE LOWER(e.Description) LIKE '%' || $1 || '%'`
 
 	command_rows, err := a.DB.Query(q, strings.ToLower(function_string))
@@ -84,7 +80,6 @@ func (a *App) getDescriptionsContaining(function_string string, wg *sync.WaitGro
 
 		queried_commands = append(queried_commands, ec)
 	}
-	defer wg.Done()
 
 	return queried_commands
 }

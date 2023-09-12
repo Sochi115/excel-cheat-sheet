@@ -6,7 +6,6 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"sync"
 	"text/template"
 	"time"
 )
@@ -53,12 +52,9 @@ func (a *App) searchQuery(w http.ResponseWriter, r *http.Request) {
 		result := a.getTenEntriesFromDb()
 		tmpl.Execute(w, result)
 	} else {
-		var wg sync.WaitGroup
 
-		commands1 := a.getFunctionsContaining(query, &wg)
-		commands2 := a.getDescriptionsContaining(query, &wg)
-
-		wg.Wait()
+		commands1 := a.getFunctionsContaining(query)
+		commands2 := a.getDescriptionsContaining(query)
 
 		result := a.combineQueryResults(commands1, commands2)
 		tmpl.Execute(w, result)
