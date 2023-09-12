@@ -20,16 +20,11 @@
         </div>
         <div class="basis-8/12 mt-8 flex flex-col">
           <input class="input h-12 flex-1 rounded-lg text-3xl px-4 py-2" type="searchbar" name="q"
-                                                                                          placeholder="Search..." autofocus=true>
-          <!-- hx-get="/search" -->
-          <!-- hx-target="#db-items" -->
-          <!-- hx-trigger="keyup changed delay:500ms"> -->
+                                                                                          placeholder="Search..." autofocus=true
+          hx-get="/search"
+          hx-target="#db-items"
+          hx-trigger="keyup changed delay:500ms">
 
-          <button
-            class="bg-red-200"
-            hx-get="/search" 
-            hx-target="#db-items"
-            > GET COMMANDS</button>
           <table>
             <thead>
               <tr>
@@ -40,7 +35,16 @@
               </tr>
             </thead>
             <tbody id="db-items">
-              
+              {{ range . }}
+
+              <tr>
+                <td>{{ .Function }}</td>
+                <td>{{ .Desc }}</td>
+                <td>{{ .Syntax }}</td>
+                <td>{{ .Tag }}</td>
+              </tr>
+
+              {{ end }}
             </tbody>
           </table>
         </div>

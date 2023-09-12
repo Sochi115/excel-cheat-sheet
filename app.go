@@ -31,18 +31,25 @@ func (a *App) run() {
 }
 
 func (a *App) mainPage(w http.ResponseWriter, r *http.Request) {
+	initial_list := a.getTenEntriesFromDb()
 	tmpl := template.Must(template.ParseFiles("templates/index.html"))
 
-	tmpl.Execute(w, nil)
+	tmpl.Execute(w, initial_list)
 }
 
 func (a *App) searchQuery(w http.ResponseWriter, r *http.Request) {
-	// result := r.URL.Query().Get("q")
-	result := a.getTenEntriesFromDb()
+	query := r.URL.Query().Get("q")
+
 	tmpl, err := template.ParseFiles("templates/results.html")
 	if err != nil {
 		log.Fatal(err)
 	}
-	// tmpl.Execute(os.Stdout, result)
-	tmpl.Execute(w, result)
+
+	if len(query) == 0 {
+		result := a.getTenEntriesFromDb()
+		tmpl.Execute(w, result)
+	} else {
+		result := a.getFunctionsContaining(query)
+		tmpl.Execute(w, result)
+	}
 }
