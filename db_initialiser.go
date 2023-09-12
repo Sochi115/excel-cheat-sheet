@@ -36,7 +36,7 @@ func createDatabase(dbName string) {
 func createTable(db *sql.DB) {
 	excel_table_query := `CREATE TABLE excel_commands(
     id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-    "Command" TEXT,
+    "Function" TEXT,
     "Description" TEXT,
     "Syntax" TEXT,
     "Tag" TEXT
@@ -53,19 +53,19 @@ func createTable(db *sql.DB) {
 }
 
 func addExcelCommandEntry(db *sql.DB, data []string) {
-	query := `INSERT INTO excel_commands(Command, Description, Syntax, Tag) VALUES (?, ?, ?, ?)`
+	query := `INSERT INTO excel_commands(Function, Description, Syntax, Tag) VALUES (?, ?, ?, ?)`
 
 	stmt, err := db.Prepare(query)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	command := data[0]
+	function := data[0]
 	desc := data[1]
 	syntax := data[2]
 	tag := data[3]
 
-	_, err = stmt.Exec(command, desc, syntax, tag)
+	_, err = stmt.Exec(function, desc, syntax, tag)
 
 	if err != nil {
 		log.Fatal(err)
