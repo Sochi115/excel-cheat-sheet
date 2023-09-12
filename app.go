@@ -2,10 +2,13 @@ package main
 
 import (
 	"database/sql"
+	"fmt"
 	"log"
 	"net/http"
 	"os"
+	"sync"
 	"text/template"
+	"time"
 )
 
 type App struct {
@@ -38,6 +41,7 @@ func (a *App) mainPage(w http.ResponseWriter, r *http.Request) {
 }
 
 func (a *App) searchQuery(w http.ResponseWriter, r *http.Request) {
+	start := time.Now()
 	query := r.URL.Query().Get("q")
 
 	tmpl, err := template.ParseFiles("templates/results.html")
@@ -49,7 +53,34 @@ func (a *App) searchQuery(w http.ResponseWriter, r *http.Request) {
 		result := a.getTenEntriesFromDb()
 		tmpl.Execute(w, result)
 	} else {
-		result := a.getFunctionsContaining(query)
+		var wg sync.WaitGroup
+
+		commands1 := a.getFunctionsContaining(query, &wg)
+		commands2 := a.getDescriptionsContaining(query, &wg)
+
+		wg.Wait()
+
+		result := a.combineQueryResults(commands1, commands2)
 		tmpl.Execute(w, result)
+
+		fmt.Println("Time taken: ", time.Since(start))
 	}
+}
+
+func (a *App) combineQueryResults(
+	commands1 []ExcelCommand,
+	commands2 []ExcelCommand,
+) []ExcelCommand {
+	combined_slice := append(commands1, commands2...)
+	allKeys := make(map[string]bool)
+	results := []ExcelCommand{}
+
+	for _, item := range combined_slice {
+		if _, value := allKeys[item.Function]; !value {
+			allKeys[item.Function] = true
+			results = append(results, item)
+		}
+	}
+
+	return results
 }
