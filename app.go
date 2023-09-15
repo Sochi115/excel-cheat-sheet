@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strings"
 	"text/template"
 	"time"
 )
@@ -35,10 +36,21 @@ func (a *App) run() {
 }
 
 func (a *App) mainPage(w http.ResponseWriter, r *http.Request) {
-	initial_list := a.getTenEntriesFromDb()
-	tmpl := template.Must(template.ParseFiles("templates/index.html"))
+	pages := r.URL.Path[1:]
+	// Default page
+	if len(pages) == 0 {
+		initial_list := a.getTenEntriesFromDb()
+		tmpl := template.Must(template.ParseFiles("templates/index.html"))
+		tmpl.Execute(w, initial_list)
 
-	tmpl.Execute(w, initial_list)
+		// Dynamic Page
+	} else {
+		// Get function name from request
+		image_name := strings.Replace(r.URL.RequestURI(), "/", "", -1)
+
+		tmpl, _ := template.ParseFiles("templates/details.html")
+		tmpl.Execute(w, fmt.Sprintf("/excel_images/%v.jpg", image_name))
+	}
 }
 
 func (a *App) searchQuery(w http.ResponseWriter, r *http.Request) {
