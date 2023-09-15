@@ -27,6 +27,8 @@ func (a *App) initializeApp(dbFile string, csvFile string) {
 }
 
 func (a *App) run() {
+	fs := http.FileServer(http.Dir("templates/excel_images"))
+	http.Handle("/excel_images/", http.StripPrefix("/excel_images", fs))
 	http.HandleFunc("/", a.mainPage)
 	http.HandleFunc("/search", a.searchQuery)
 	log.Fatal(http.ListenAndServe(":1211", nil))
