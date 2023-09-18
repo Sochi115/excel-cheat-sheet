@@ -1,6 +1,6 @@
 {{ range . }}
 
-<tr>
+<tr hx-get="/{{ .Function }}" hx-target="#main-area" hx-trigger="click">
   <td>{{ .Function }}</td>
   <td>{{ .Desc }}</td>
   <td>{{ .Syntax }}</td>

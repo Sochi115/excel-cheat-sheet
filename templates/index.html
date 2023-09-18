@@ -12,7 +12,7 @@
   <body class="min-h-screen min-w-screen flex flex-col">
     <header class="grid align-middle h-20 bg-orange-200 ">
       <h1 class="text-2xl ml-20 self-center font-bold text-left">
-        Excel Cheat Sheet
+        <a href="/">Excel Cheat Sheet</a>
       </h1>
     </header>
     <div class="flex-1 bg-green-200">
@@ -38,7 +38,7 @@
             <tbody id="db-items">
               {{ range . }}
 
-              <tr>
+              <tr hx-get="/{{ .Function }}" hx-target="#main-area" hx-trigger="click">
                 <td>{{ .Function }}</td>
                 <td>{{ .Desc }}</td>
                 <td>{{ .Syntax }}</td>

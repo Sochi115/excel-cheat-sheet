@@ -2,13 +2,11 @@ package main
 
 import (
 	"database/sql"
-	"fmt"
 	"log"
 	"net/http"
 	"os"
 	"strings"
 	"text/template"
-	"time"
 )
 
 type App struct {
@@ -47,14 +45,12 @@ func (a *App) mainPage(w http.ResponseWriter, r *http.Request) {
 	} else {
 		// Get function name from request
 		image_name := strings.Replace(r.URL.RequestURI(), "/", "", -1)
+		a.handleDetailsPage(w, image_name)
 
-		tmpl, _ := template.ParseFiles("templates/details.html")
-		tmpl.Execute(w, fmt.Sprintf("/excel_images/%v.jpg", image_name))
 	}
 }
 
 func (a *App) searchQuery(w http.ResponseWriter, r *http.Request) {
-	start := time.Now()
 	query := r.URL.Query().Get("q")
 
 	tmpl, err := template.ParseFiles("templates/results.html")
@@ -72,8 +68,6 @@ func (a *App) searchQuery(w http.ResponseWriter, r *http.Request) {
 
 		result := a.combineQueryResults(commands1, commands2)
 		tmpl.Execute(w, result)
-
-		fmt.Println("Time taken: ", time.Since(start))
 	}
 }
 
@@ -93,4 +87,11 @@ func (a *App) combineQueryResults(
 	}
 
 	return results
+}
+
+func (a *App) handleDetailsPage(w http.ResponseWriter, function_name string) {
+	result := a.getByFunction(function_name)
+
+	tmpl, _ := template.ParseFiles("templates/details.html")
+	tmpl.Execute(w, result)
 }
