@@ -2,12 +2,11 @@ package main
 
 import (
 	"database/sql"
-	"fmt"
 	"log"
 	"net/http"
 	"os"
+	"strings"
 	"text/template"
-	"time"
 )
 
 type App struct {
@@ -27,20 +26,31 @@ func (a *App) initializeApp(dbFile string, csvFile string) {
 }
 
 func (a *App) run() {
+	fs := http.FileServer(http.Dir("templates/excel_images"))
+	http.Handle("/excel_images/", http.StripPrefix("/excel_images", fs))
 	http.HandleFunc("/", a.mainPage)
 	http.HandleFunc("/search", a.searchQuery)
 	log.Fatal(http.ListenAndServe(":1211", nil))
 }
 
 func (a *App) mainPage(w http.ResponseWriter, r *http.Request) {
-	initial_list := a.getTenEntriesFromDb()
-	tmpl := template.Must(template.ParseFiles("templates/index.html"))
+	pages := r.URL.Path[1:]
+	// Default page
+	if len(pages) == 0 {
+		initial_list := a.getTenEntriesFromDb()
+		tmpl := template.Must(template.ParseFiles("templates/index.html"))
+		tmpl.Execute(w, initial_list)
 
-	tmpl.Execute(w, initial_list)
+		// Dynamic Page
+	} else {
+		// Get function name from request
+		image_name := strings.Replace(r.URL.RequestURI(), "/", "", -1)
+		a.handleDetailsPage(w, image_name)
+
+	}
 }
 
 func (a *App) searchQuery(w http.ResponseWriter, r *http.Request) {
-	start := time.Now()
 	query := r.URL.Query().Get("q")
 
 	tmpl, err := template.ParseFiles("templates/results.html")
@@ -58,8 +68,6 @@ func (a *App) searchQuery(w http.ResponseWriter, r *http.Request) {
 
 		result := a.combineQueryResults(commands1, commands2)
 		tmpl.Execute(w, result)
-
-		fmt.Println("Time taken: ", time.Since(start))
 	}
 }
 
@@ -79,4 +87,11 @@ func (a *App) combineQueryResults(
 	}
 
 	return results
+}
+
+func (a *App) handleDetailsPage(w http.ResponseWriter, function_name string) {
+	result := a.getByFunction(function_name)
+
+	tmpl, _ := template.ParseFiles("templates/details.html")
+	tmpl.Execute(w, result)
 }

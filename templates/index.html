@@ -6,16 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src= "https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/htmx.org@1.9.5" integrity="sha384-xcuj3WpfgjlKF+FXhSQFQ0ZNr39ln+hwjN3npfM9VBnUskLolQAcN80McRIVOPuO" crossorigin="anonymous"></script>
+    <base href="http://localhost:1211/" target="">
     <link href="css/style.css" rel="stylesheet">
   </head>
   <body class="min-h-screen min-w-screen flex flex-col">
     <header class="grid align-middle h-20 bg-orange-200 ">
       <h1 class="text-2xl ml-20 self-center font-bold text-left">
-        Excel Cheat Sheet
+        <a href="/">Excel Cheat Sheet</a>
       </h1>
     </header>
     <div class="flex-1 bg-green-200">
-      <div class="flex flex-row">
+      <div class="flex flex-row" id="main-area">
         <div class="basis-2/12">
         </div>
         <div class="basis-8/12 mt-8 flex flex-col">
@@ -37,7 +38,7 @@
             <tbody id="db-items">
               {{ range . }}
 
-              <tr>
+              <tr hx-get="/{{ .Function }}" hx-target="#main-area" hx-trigger="click">
                 <td>{{ .Function }}</td>
                 <td>{{ .Desc }}</td>
                 <td>{{ .Syntax }}</td>

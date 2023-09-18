@@ -1,6 +1,7 @@
 package main
 
 import (
+	"database/sql"
 	"log"
 	"strings"
 )
@@ -26,6 +27,22 @@ func (a *App) getTenEntriesFromDb() []ExcelCommand {
 	}
 
 	return queried_commands
+}
+
+func (a *App) getByFunction(function_string string) ExcelCommand {
+	q := `SELECT * FROM excel_commands AS e WHERE LOWER(e.Function) = ?`
+	var ec ExcelCommand
+
+	command_row := a.DB.QueryRow(q, strings.ToLower(function_string))
+
+	switch err := command_row.Scan(&ec.Id, &ec.Function, &ec.Desc, &ec.Syntax, &ec.Tag); err {
+	case sql.ErrNoRows:
+		return ExcelCommand{}
+	case nil:
+		return ec
+	default:
+		panic(err)
+	}
 }
 
 func (a *App) getFunctionsContaining(function_string string) []ExcelCommand {
