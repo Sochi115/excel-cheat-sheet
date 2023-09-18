@@ -17,7 +17,7 @@ func (a *App) getTenEntriesFromDb() []ExcelCommand {
 
 	for rows.Next() {
 		var ec ExcelCommand
-		err = rows.Scan(&ec.Id, &ec.Function, &ec.Desc, &ec.Syntax, &ec.Tag)
+		err = rows.Scan(&ec.Id, &ec.Function, &ec.Desc, &ec.Syntax, &ec.Tag, &ec.Long)
 
 		if err != nil {
 			queried_commands = append(queried_commands, ExcelCommand{})
@@ -35,7 +35,7 @@ func (a *App) getByFunction(function_string string) ExcelCommand {
 
 	command_row := a.DB.QueryRow(q, strings.ToLower(function_string))
 
-	switch err := command_row.Scan(&ec.Id, &ec.Function, &ec.Desc, &ec.Syntax, &ec.Tag); err {
+	switch err := command_row.Scan(&ec.Id, &ec.Function, &ec.Desc, &ec.Syntax, &ec.Tag, &ec.Long); err {
 	case sql.ErrNoRows:
 		return ExcelCommand{}
 	case nil:
@@ -61,7 +61,7 @@ func (a *App) getFunctionsContaining(function_string string) []ExcelCommand {
 
 	for command_rows.Next() {
 		var ec ExcelCommand
-		err = command_rows.Scan(&ec.Id, &ec.Function, &ec.Desc, &ec.Syntax, &ec.Tag)
+		err = command_rows.Scan(&ec.Id, &ec.Function, &ec.Desc, &ec.Syntax, &ec.Tag, &ec.Long)
 
 		if err != nil {
 			queried_commands = append(queried_commands, ExcelCommand{})
@@ -89,7 +89,7 @@ func (a *App) getDescriptionsContaining(function_string string) []ExcelCommand {
 
 	for command_rows.Next() {
 		var ec ExcelCommand
-		err = command_rows.Scan(&ec.Id, &ec.Function, &ec.Desc, &ec.Syntax, &ec.Tag)
+		err = command_rows.Scan(&ec.Id, &ec.Function, &ec.Desc, &ec.Syntax, &ec.Tag, &ec.Long)
 
 		if err != nil {
 			queried_commands = append(queried_commands, ExcelCommand{})

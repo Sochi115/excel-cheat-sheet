@@ -39,7 +39,8 @@ func createTable(db *sql.DB) {
     "Function" TEXT,
     "Description" TEXT,
     "Syntax" TEXT,
-    "Tag" TEXT
+    "Tag" TEXT,
+    "Long" TEXT
   );`
 
 	query, err := db.Prepare(excel_table_query)
@@ -53,7 +54,7 @@ func createTable(db *sql.DB) {
 }
 
 func addExcelCommandEntry(db *sql.DB, data []string) {
-	query := `INSERT INTO excel_commands(Function, Description, Syntax, Tag) VALUES (?, ?, ?, ?)`
+	query := `INSERT INTO excel_commands(Function, Description, Syntax, Tag, Long) VALUES (?, ?, ?, ?, ?)`
 
 	stmt, err := db.Prepare(query)
 	if err != nil {
@@ -64,8 +65,9 @@ func addExcelCommandEntry(db *sql.DB, data []string) {
 	desc := data[1]
 	syntax := data[2]
 	tag := data[3]
+	long := data[4]
 
-	_, err = stmt.Exec(function, desc, syntax, tag)
+	_, err = stmt.Exec(function, desc, syntax, tag, long)
 
 	if err != nil {
 		log.Fatal(err)

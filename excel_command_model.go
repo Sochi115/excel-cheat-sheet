@@ -6,4 +6,5 @@ type ExcelCommand struct {
 	Desc     string
 	Syntax   string
 	Tag      string
+	Long     string
 }
