@@ -9,45 +9,85 @@
     <base href="http://localhost:1211/" target="">
     <link href="css/style.css" rel="stylesheet">
   </head>
-  <body class="min-h-screen min-w-screen flex flex-col">
-    <header class="grid align-middle h-20 bg-orange-200 ">
-      <h1 class="text-2xl ml-20 self-center font-bold text-left">
-        <a href="/">Excel Cheat Sheet</a>
+  <body class="min-h-screen min-w-screen flex flex-col"
+        style="background-color:#feffff"> 
+    <header 
+        class="grid align-middle h-20">
+      <h1 class="text-5xl ml-20 self-center font-bold text-left"
+          >
+        <a href="/" style="color:#3aafa9"
+          >EXCEL CHEAT SHEET</a>
       </h1>
     </header>
-    <div class="flex-1 bg-green-200">
+    <div class="flex-1">
       <div class="flex flex-row" id="main-area">
         <div class="basis-2/12">
         </div>
         <div class="basis-8/12 mt-8 flex flex-col">
-          <input class="input h-12 flex-1 rounded-lg text-3xl px-4 py-2" type="searchbar" name="q"
-                                                                                          placeholder="Search..." autofocus=true
-          hx-get="/search"
-          hx-target="#db-items"
-          hx-trigger="keyup changed delay:500ms">
+          <input class="input h-12 flex-1 rounded-lg text-3xl border-2 border-gray-800 px-4 py-2 my-2" 
+                 style="color:#17252a"
+                 type="searchbar" 
+                 name="q"
+                 placeholder="Search..." 
+                 autofocus=true
+                 hx-get="/search"
+                 hx-target="#db-items"
+                 hx-trigger="keyup changed delay:500ms">
 
-          <table>
-            <thead>
-              <tr>
-                <th>Function</th>
-                <th>Description</th>
-                <th>Syntax</th>
-                <th>Tag</th>
-              </tr>
-            </thead>
-            <tbody id="db-items">
-              {{ range . }}
+          <div class="h-4">
+            
+          </div>
+          <div id="db-items">
+            {{ range . }}
+            <div
+              class="h-18 flex gap-x-6 rounded-lg p-3 overflow-hidden"
+              style="background-color:#3aafa9"
+              hx-get="/{{ .Function }}" 
+              hx-target="#main-area" 
+              hx-trigger="click">
+              <div class= "flex-none w-16 self-center justify-center">
+                    {{ .Function }}
+              </div>
+              <div class= "flex-none w-64 self-center overflow-auto">
+                    {{ .Desc }}
+              </div>
+              <div class= "flex-1 self-center overflow-auto">
+                    {{ .Syntax }}
+              </div>
+            </div>
+            <div class="h-2">
+              
+            </div>
+            {{ end }}
+          </div>
 
-              <tr hx-get="/{{ .Function }}" hx-target="#main-area" hx-trigger="click">
-                <td>{{ .Function }}</td>
-                <td>{{ .Desc }}</td>
-                <td>{{ .Syntax }}</td>
-                <td>{{ .Tag }}</td>
-              </tr>
-
-              {{ end }}
-            </tbody>
-          </table>
+          <!-- <table class="my-4"  -->
+          <!--   style="color:#17252a"> -->
+          <!--   <thead> -->
+          <!--     <tr> -->
+          <!--       <th>Function</th> -->
+          <!--       <th>Description</th> -->
+          <!--       <th>Syntax</th> -->
+          <!--     </tr> -->
+          <!--   </thead> -->
+          <!--   <tbody id="db-items"> -->
+          <!--     {{ range . }} -->
+          <!--     <tr  -->
+          <!--          class="border-gray-800 px-6 rounded-lg" -->
+          <!--          style="background-color:#3aafa9" -->
+          <!--          hx-get="/{{ .Function }}"  -->
+          <!--          hx-target="#main-area"  -->
+          <!--          hx-trigger="click"> -->
+          <!---->
+          <!--         <td>{{ .Function }}</td> -->
+          <!--         <td>{{ .Desc }}</td> -->
+          <!--         <td>{{ .Syntax }}</td> -->
+          <!--     </tr> -->
+          <!--     <tr class="h-2"></tr> -->
+          <!---->
+          <!--     {{ end }} -->
+          <!--   </tbody> -->
+          <!-- </table> -->
         </div>
         <div class="basis-2/12">
         </div>

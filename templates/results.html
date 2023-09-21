@@ -1,10 +1,22 @@
 {{ range . }}
+  <div
+    class="h-18 flex gap-x-6 rounded-lg p-3 overflow-hidden"
+    style="background-color:#3aafa9"
+    hx-get="/{{ .Function }}" 
+    hx-target="#main-area" 
+    hx-trigger="click">
+    <div class= "flex-none w-16 self-center justify-center">
+      {{ .Function }}
+    </div>
+    <div class= "flex-none w-64 self-center overflow-auto">
+      {{ .Desc }}
+    </div>
+    <div class= "flex-1 self-center overflow-auto">
+      {{ .Syntax }}
+    </div>
+  </div>
 
-<tr hx-get="/{{ .Function }}" hx-target="#main-area" hx-trigger="click">
-  <td>{{ .Function }}</td>
-  <td>{{ .Desc }}</td>
-  <td>{{ .Syntax }}</td>
-  <td>{{ .Tag }}</td>
-</tr>
+  <div class="h-2">
 
+  </div>
 {{ end }}
