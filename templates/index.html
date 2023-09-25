@@ -9,13 +9,14 @@
     <base href="http://localhost:1211/" target="">
     <link href="css/style.css" rel="stylesheet">
   </head>
-  <body class="min-h-screen min-w-screen flex flex-col"
-        style="background-color:#feffff"> 
+  <body class="min-h-screen max-h-screen min-w-screen flex flex-col bg-[#feffff]">
     <header 
         class="grid align-middle h-20">
       <h1 class="text-5xl ml-20 self-center font-bold text-left"
           >
-        <a href="/" style="color:#3aafa9"
+        <a id="title" 
+          href="/" 
+          class="text-[#3aafa9] hover:text-[#2b7a78]"
           >EXCEL CHEAT SHEET</a>
       </h1>
     </header>
@@ -23,6 +24,7 @@
       <div class="flex flex-row" id="main-area">
         <div class="basis-2/12">
         </div>
+        <!-- Search Bar -->
         <div class="basis-8/12 mt-8 flex flex-col">
           <input class="input h-12 flex-1 rounded-lg text-3xl border-2 border-gray-800 px-4 py-2 my-2" 
                  style="color:#17252a"
@@ -37,15 +39,27 @@
           <div class="h-4">
             
           </div>
+        <!-- End Search Bar -->
+          <!-- Commands list -->
           <div id="db-items">
             {{ range . }}
             <div
-              class="h-18 flex gap-x-6 rounded-lg p-3 overflow-hidden"
-              style="background-color:#3aafa9"
+              id="function-item"
+              class="h-18 
+                    flex 
+                    gap-x-6 
+                    rounded-lg 
+                    p-3 
+                    overflow-hidden 
+                    font-medium
+                    text-[#feffff]
+                    hover:text[#def2f1]
+                    bg-[#3aafa9]
+                    hover:bg-[#2b7a78]"
               hx-get="/{{ .Function }}" 
               hx-target="#main-area" 
               hx-trigger="click">
-              <div class= "flex-none w-16 self-center justify-center">
+              <div class="flex-none w-16 self-center justify-center">
                     {{ .Function }}
               </div>
               <div class= "flex-none w-64 self-center overflow-auto">
@@ -60,34 +74,7 @@
             </div>
             {{ end }}
           </div>
-
-          <!-- <table class="my-4"  -->
-          <!--   style="color:#17252a"> -->
-          <!--   <thead> -->
-          <!--     <tr> -->
-          <!--       <th>Function</th> -->
-          <!--       <th>Description</th> -->
-          <!--       <th>Syntax</th> -->
-          <!--     </tr> -->
-          <!--   </thead> -->
-          <!--   <tbody id="db-items"> -->
-          <!--     {{ range . }} -->
-          <!--     <tr  -->
-          <!--          class="border-gray-800 px-6 rounded-lg" -->
-          <!--          style="background-color:#3aafa9" -->
-          <!--          hx-get="/{{ .Function }}"  -->
-          <!--          hx-target="#main-area"  -->
-          <!--          hx-trigger="click"> -->
-          <!---->
-          <!--         <td>{{ .Function }}</td> -->
-          <!--         <td>{{ .Desc }}</td> -->
-          <!--         <td>{{ .Syntax }}</td> -->
-          <!--     </tr> -->
-          <!--     <tr class="h-2"></tr> -->
-          <!---->
-          <!--     {{ end }} -->
-          <!--   </tbody> -->
-          <!-- </table> -->
+          <!-- Commands list end -->
         </div>
         <div class="basis-2/12">
         </div>

@@ -1,22 +1,31 @@
-{{ range . }}
+  {{ range . }}
   <div
-    class="h-18 flex gap-x-6 rounded-lg p-3 overflow-hidden"
-    style="background-color:#3aafa9"
+    id="function-item"
+    class="h-18 
+          flex 
+          gap-x-6 
+          rounded-lg 
+          p-3 
+          overflow-hidden 
+          font-medium
+          text-[#feffff]
+          hover:text[#def2f1]
+          bg-[#3aafa9]
+          hover:bg-[#2b7a78]"
     hx-get="/{{ .Function }}" 
     hx-target="#main-area" 
     hx-trigger="click">
-    <div class= "flex-none w-16 self-center justify-center">
-      {{ .Function }}
+    <div class="flex-none w-16 self-center justify-center">
+          {{ .Function }}
     </div>
     <div class= "flex-none w-64 self-center overflow-auto">
-      {{ .Desc }}
+          {{ .Desc }}
     </div>
     <div class= "flex-1 self-center overflow-auto">
-      {{ .Syntax }}
+          {{ .Syntax }}
     </div>
   </div>
-
   <div class="h-2">
-
+    
   </div>
-{{ end }}
+  {{ end }}
