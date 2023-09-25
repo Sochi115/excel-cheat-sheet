@@ -100,3 +100,31 @@ func (a *App) getDescriptionsContaining(function_string string) []ExcelCommand {
 
 	return queried_commands
 }
+
+func (a *App) getLongDescriptionsContaining(function_string string) []ExcelCommand {
+	q := `SELECT * FROM excel_commands AS e WHERE LOWER(e.Long) LIKE '%' || $1 || '%'`
+
+	command_rows, err := a.DB.Query(q, strings.ToLower(function_string))
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	if command_rows == nil {
+		return nil
+	}
+
+	queried_commands := []ExcelCommand{}
+
+	for command_rows.Next() {
+		var ec ExcelCommand
+		err = command_rows.Scan(&ec.Id, &ec.Function, &ec.Desc, &ec.Syntax, &ec.Tag, &ec.Long)
+
+		if err != nil {
+			queried_commands = append(queried_commands, ExcelCommand{})
+		}
+
+		queried_commands = append(queried_commands, ec)
+	}
+
+	return queried_commands
+}
