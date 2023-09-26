@@ -1,13 +1,15 @@
 package main
 
+import "github.com/Sochi115/excel-cheat-sheet/app"
+
 var (
 	csvFile string = "excel_commands.csv"
 	dbFile  string = "ecs.db"
 )
 
 func main() {
-	app := App{}
+	appInstance := app.App{}
 
-	app.initializeApp(dbFile, csvFile)
-	app.run()
+	appInstance.InitializeApp(dbFile, csvFile)
+	appInstance.Run()
 }

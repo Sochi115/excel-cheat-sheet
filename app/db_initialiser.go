@@ -1,4 +1,4 @@
-package main
+package app
 
 import (
 	"database/sql"
@@ -7,6 +7,8 @@ import (
 	"os"
 
 	_ "github.com/mattn/go-sqlite3"
+
+	"github.com/Sochi115/excel-cheat-sheet/helper"
 )
 
 func initialiseDatabase(dbName string, csvFile string) {
@@ -18,7 +20,7 @@ func initialiseDatabase(dbName string, csvFile string) {
 	}
 	createTable(db)
 
-	csvData := readCsvFile(csvFile)
+	csvData := helper.ReadCsvFile(csvFile)
 
 	for _, csvLine := range csvData {
 		addExcelCommandEntry(db, csvLine)
