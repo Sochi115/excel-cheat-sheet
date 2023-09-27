@@ -1,17 +1,19 @@
 package app
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 	"strings"
 	"text/template"
+	"time"
 )
 
 func (a *App) mainPage(w http.ResponseWriter, r *http.Request) {
 	pages := r.URL.Path[1:]
 	// Default page
 	if len(pages) == 0 {
-		initial_list := a.getTenEntriesFromDb()
+		initial_list := a.getDefaultTenCommands()
 		tmpl := template.Must(template.ParseFiles("templates/index.html"))
 		tmpl.Execute(w, initial_list)
 
@@ -25,6 +27,7 @@ func (a *App) mainPage(w http.ResponseWriter, r *http.Request) {
 }
 
 func (a *App) searchQuery(w http.ResponseWriter, r *http.Request) {
+	start := time.Now()
 	query := r.URL.Query().Get("q")
 
 	tmpl, err := template.ParseFiles("templates/results.html")
@@ -33,16 +36,17 @@ func (a *App) searchQuery(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if len(query) == 0 {
-		result := a.getTenEntriesFromDb()
+		result := a.getDefaultTenCommands()
 		tmpl.Execute(w, result)
 	} else {
 
-		commands1 := a.getFunctionsContaining(query)
-		commands2 := a.getDescriptionsContaining(query)
-		commands3 := a.getLongDescriptionsContaining(query)
+		commands1 := a.getWeightedFunctionsContaining(query)
+		commands2 := a.getWeightedDescriptionsContaining(query)
+		commands3 := a.getWeightedLongDescriptionsContaining(query)
 
 		result := a.combineQueryResults(commands1, commands2, commands3)
 		tmpl.Execute(w, result)
+		fmt.Println("Time taken:", time.Since(start))
 	}
 }
 

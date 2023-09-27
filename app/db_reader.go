@@ -2,13 +2,15 @@ package app
 
 import (
 	"database/sql"
+	"fmt"
 	"log"
+	"sort"
 	"strings"
 
 	"github.com/Sochi115/excel-cheat-sheet/models"
 )
 
-func (a *App) getTenEntriesFromDb() []models.ExcelCommand {
+func (a *App) getDefaultTenCommands() []models.ExcelCommand {
 	queried_commands := []models.ExcelCommand{}
 	query := "SELECT * FROM excel_commands LIMIT 10;"
 
@@ -47,7 +49,7 @@ func (a *App) getByFunction(function_string string) models.ExcelCommand {
 	}
 }
 
-func (a *App) getFunctionsContaining(function_string string) []models.ExcelCommand {
+func (a *App) getWeightedFunctionsContaining(function_string string) []models.WeightedQuery {
 	q := `SELECT * FROM excel_commands AS e WHERE LOWER(e.Function) LIKE '%' || $1 || '%'`
 
 	command_rows, err := a.DB.Query(q, strings.ToLower(function_string))
@@ -59,26 +61,29 @@ func (a *App) getFunctionsContaining(function_string string) []models.ExcelComma
 		return nil
 	}
 
-	queried_commands := []models.ExcelCommand{}
+	queried_commands := []models.WeightedQuery{}
 
 	for command_rows.Next() {
 		var ec models.ExcelCommand
 		err = command_rows.Scan(&ec.Id, &ec.Function, &ec.Desc, &ec.Syntax, &ec.Tag, &ec.Long)
 
 		if err != nil {
-			queried_commands = append(queried_commands, models.ExcelCommand{})
+			continue
 		}
 
-		queried_commands = append(queried_commands, ec)
+		var wq models.WeightedQuery
+		wq.ExcelCommand = ec
+		wq.Score = 3
+		queried_commands = append(queried_commands, wq)
 	}
 
 	return queried_commands
 }
 
-func (a *App) getDescriptionsContaining(function_string string) []models.ExcelCommand {
+func (a *App) getWeightedDescriptionsContaining(query_value string) []models.WeightedQuery {
 	q := `SELECT * FROM excel_commands AS e WHERE LOWER(e.Description) LIKE '%' || $1 || '%'`
 
-	command_rows, err := a.DB.Query(q, strings.ToLower(function_string))
+	command_rows, err := a.DB.Query(q, strings.ToLower(query_value))
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -87,26 +92,29 @@ func (a *App) getDescriptionsContaining(function_string string) []models.ExcelCo
 		return nil
 	}
 
-	queried_commands := []models.ExcelCommand{}
+	queried_commands := []models.WeightedQuery{}
 
 	for command_rows.Next() {
 		var ec models.ExcelCommand
 		err = command_rows.Scan(&ec.Id, &ec.Function, &ec.Desc, &ec.Syntax, &ec.Tag, &ec.Long)
 
 		if err != nil {
-			queried_commands = append(queried_commands, models.ExcelCommand{})
+			continue
 		}
 
-		queried_commands = append(queried_commands, ec)
+		var wq models.WeightedQuery
+		wq.ExcelCommand = ec
+		wq.Score = 1
+		queried_commands = append(queried_commands, wq)
 	}
 
 	return queried_commands
 }
 
-func (a *App) getLongDescriptionsContaining(function_string string) []models.ExcelCommand {
+func (a *App) getWeightedLongDescriptionsContaining(query_value string) []models.WeightedQuery {
 	q := `SELECT * FROM excel_commands AS e WHERE LOWER(e.Long) LIKE '%' || $1 || '%'`
 
-	command_rows, err := a.DB.Query(q, strings.ToLower(function_string))
+	command_rows, err := a.DB.Query(q, strings.ToLower(query_value))
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -115,37 +123,56 @@ func (a *App) getLongDescriptionsContaining(function_string string) []models.Exc
 		return nil
 	}
 
-	queried_commands := []models.ExcelCommand{}
+	queried_commands := []models.WeightedQuery{}
 
 	for command_rows.Next() {
 		var ec models.ExcelCommand
 		err = command_rows.Scan(&ec.Id, &ec.Function, &ec.Desc, &ec.Syntax, &ec.Tag, &ec.Long)
 
 		if err != nil {
-			queried_commands = append(queried_commands, models.ExcelCommand{})
+			continue
 		}
 
-		queried_commands = append(queried_commands, ec)
+		var wq models.WeightedQuery
+		wq.ExcelCommand = ec
+		wq.Score = 0.5
+		queried_commands = append(queried_commands, wq)
 	}
 
 	return queried_commands
 }
 
-func (a *App) combineQueryResults(queryResults ...[]models.ExcelCommand) []models.ExcelCommand {
-	var combinedSlice []models.ExcelCommand
-	allKeys := make(map[string]bool)
+func (a *App) combineQueryResults(queryResults ...[]models.WeightedQuery) []models.ExcelCommand {
+	var combinedSlice []models.WeightedQuery
+	weightScores := make(map[string]float32)
+	visited := make(map[string]bool)
 	results := []models.ExcelCommand{}
 
 	for _, q := range queryResults {
 		combinedSlice = append(combinedSlice, q...)
 	}
 
-	for _, item := range combinedSlice {
-		if _, value := allKeys[item.Function]; !value {
-			allKeys[item.Function] = true
-			results = append(results, item)
+	for _, wq := range combinedSlice {
+		ec := wq.ExcelCommand
+		score := wq.Score
+
+		weightScores[ec.Function] += score
+
+		if _, value := visited[ec.Function]; !value {
+			visited[ec.Function] = true
+			results = append(results, ec)
 		}
 	}
 
-	return results
+	sort.SliceStable(results, func(i, j int) bool {
+		return weightScores[results[i].Function] > weightScores[results[j].Function]
+	})
+
+	fmt.Println("Weights", weightScores)
+
+	if len(results) <= 15 {
+		return results
+	} else {
+		return results[:15]
+	}
 }
