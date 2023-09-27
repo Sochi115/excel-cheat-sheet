@@ -5,13 +5,15 @@ import (
 	"net/http"
 	"strings"
 	"text/template"
+
+	"github.com/Sochi115/excel-cheat-sheet/models"
 )
 
 func (a *App) mainPage(w http.ResponseWriter, r *http.Request) {
 	pages := r.URL.Path[1:]
 	// Default page
 	if len(pages) == 0 {
-		initial_list := a.getTenEntriesFromDb()
+		initial_list := a.getDefaultTenCommands()
 		tmpl := template.Must(template.ParseFiles("templates/index.html"))
 		tmpl.Execute(w, initial_list)
 
@@ -33,15 +35,22 @@ func (a *App) searchQuery(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if len(query) == 0 {
-		result := a.getTenEntriesFromDb()
+		result := a.getDefaultTenCommands()
 		tmpl.Execute(w, result)
 	} else {
 
-		commands1 := a.getFunctionsContaining(query)
-		commands2 := a.getDescriptionsContaining(query)
-		commands3 := a.getLongDescriptionsContaining(query)
+		tokens := strings.Fields(query)
 
-		result := a.combineQueryResults(commands1, commands2, commands3)
+		queryResults := [][]models.WeightedQuery{}
+
+		for _, t := range tokens {
+			queryResults = append(queryResults, a.getWeightedFunctionsContaining(t))
+			queryResults = append(queryResults, a.getWeightedFunctionEquals(t))
+			queryResults = append(queryResults, a.getWeightedDescriptionsContaining(t))
+			queryResults = append(queryResults, a.getWeightedLongDescriptionsContaining(t))
+		}
+
+		result := a.combineQueryResults(queryResults...)
 		tmpl.Execute(w, result)
 	}
 }
