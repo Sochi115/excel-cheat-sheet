@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"time"
 
 	_ "github.com/mattn/go-sqlite3"
 
@@ -12,6 +13,8 @@ import (
 )
 
 func initialiseDatabase(dbName string, csvFile string) {
+	start := time.Now()
+	fmt.Println("INITIALISING APPLICATION...")
 	createDatabase(dbName)
 
 	db, err := sql.Open("sqlite3", dbName)
@@ -25,19 +28,23 @@ func initialiseDatabase(dbName string, csvFile string) {
 	for _, csvLine := range csvData {
 		addExcelCommandEntry(db, csvLine)
 	}
+	fmt.Println("SUCCESSFULLY INITIALISED APPLICATION...")
+	fmt.Println("Time taken:", time.Since(start))
 }
 
 func createDatabase(dbName string) {
+	fmt.Println("CREATING DATABASE...")
 	file, err := os.Create(dbName)
 	if err != nil {
 		log.Fatal(err)
 	}
 	file.Close()
+	fmt.Println("DATABASE CREATED")
 }
 
 func createTable(db *sql.DB) {
-	excel_table_query := `CREATE TABLE excel_commands(
-    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+	fmt.Println("CREATING DATABASE TABLE...")
+	excel_table_query := `CREATE TABLE excel_commands( id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     "Function" TEXT,
     "Description" TEXT,
     "Syntax" TEXT,
@@ -56,6 +63,7 @@ func createTable(db *sql.DB) {
 }
 
 func addExcelCommandEntry(db *sql.DB, data []string) {
+	fmt.Println("INSERTING DATA...")
 	query := `INSERT INTO excel_commands(Function, Description, Syntax, Tag, Long) VALUES (?, ?, ?, ?, ?)`
 
 	stmt, err := db.Prepare(query)
@@ -74,4 +82,5 @@ func addExcelCommandEntry(db *sql.DB, data []string) {
 	if err != nil {
 		log.Fatal(err)
 	}
+	fmt.Println("DATA SUCCESSFULLY INSERTED")
 }
