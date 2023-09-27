@@ -2,7 +2,6 @@ package app
 
 import (
 	"database/sql"
-	"fmt"
 	"log"
 	"sort"
 	"strings"
@@ -49,7 +48,7 @@ func (a *App) getByFunction(function_string string) models.ExcelCommand {
 	}
 }
 
-func (a *App) getCommandByFunction(function_string string) []models.WeightedQuery {
+func (a *App) getWeightedFunctionEquals(function_string string) []models.WeightedQuery {
 	q := `SELECT * FROM excel_commands AS e WHERE LOWER(e.Function) = ?`
 	var ec models.ExcelCommand
 
@@ -189,8 +188,6 @@ func (a *App) combineQueryResults(queryResults ...[]models.WeightedQuery) []mode
 	sort.SliceStable(results, func(i, j int) bool {
 		return weightScores[results[i].Function] > weightScores[results[j].Function]
 	})
-
-	fmt.Println("Weights", weightScores)
 
 	if len(results) <= 15 {
 		return results

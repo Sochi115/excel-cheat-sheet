@@ -1,12 +1,12 @@
 package app
 
 import (
-	"fmt"
 	"log"
 	"net/http"
 	"strings"
 	"text/template"
-	"time"
+
+	"github.com/Sochi115/excel-cheat-sheet/models"
 )
 
 func (a *App) mainPage(w http.ResponseWriter, r *http.Request) {
@@ -27,7 +27,6 @@ func (a *App) mainPage(w http.ResponseWriter, r *http.Request) {
 }
 
 func (a *App) searchQuery(w http.ResponseWriter, r *http.Request) {
-	start := time.Now()
 	query := r.URL.Query().Get("q")
 
 	tmpl, err := template.ParseFiles("templates/results.html")
@@ -40,14 +39,19 @@ func (a *App) searchQuery(w http.ResponseWriter, r *http.Request) {
 		tmpl.Execute(w, result)
 	} else {
 
-		commands1 := a.getWeightedFunctionsContaining(query)
-		commands2 := a.getWeightedDescriptionsContaining(query)
-		commands3 := a.getWeightedLongDescriptionsContaining(query)
-		commands4 := a.getWeightedFunctionEquals(query)
+		tokens := strings.Fields(query)
 
-		result := a.combineQueryResults(commands1, commands2, commands3, commands4)
+		queryResults := [][]models.WeightedQuery{}
+
+		for _, t := range tokens {
+			queryResults = append(queryResults, a.getWeightedFunctionsContaining(t))
+			queryResults = append(queryResults, a.getWeightedFunctionEquals(t))
+			queryResults = append(queryResults, a.getWeightedDescriptionsContaining(t))
+			queryResults = append(queryResults, a.getWeightedLongDescriptionsContaining(t))
+		}
+
+		result := a.combineQueryResults(queryResults...)
 		tmpl.Execute(w, result)
-		fmt.Println("Time taken:", time.Since(start))
 	}
 }
 
