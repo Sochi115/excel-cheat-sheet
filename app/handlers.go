@@ -43,8 +43,9 @@ func (a *App) searchQuery(w http.ResponseWriter, r *http.Request) {
 		commands1 := a.getWeightedFunctionsContaining(query)
 		commands2 := a.getWeightedDescriptionsContaining(query)
 		commands3 := a.getWeightedLongDescriptionsContaining(query)
+		commands4 := a.getCommandByFunction(query)
 
-		result := a.combineQueryResults(commands1, commands2, commands3)
+		result := a.combineQueryResults(commands1, commands2, commands3, commands4)
 		tmpl.Execute(w, result)
 		fmt.Println("Time taken:", time.Since(start))
 	}

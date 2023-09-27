@@ -49,6 +49,28 @@ func (a *App) getByFunction(function_string string) models.ExcelCommand {
 	}
 }
 
+func (a *App) getCommandByFunction(function_string string) []models.WeightedQuery {
+	q := `SELECT * FROM excel_commands AS e WHERE LOWER(e.Function) = ?`
+	var ec models.ExcelCommand
+
+	queried_commands := []models.WeightedQuery{}
+
+	command_row := a.DB.QueryRow(q, strings.ToLower(function_string))
+
+	switch err := command_row.Scan(&ec.Id, &ec.Function, &ec.Desc, &ec.Syntax, &ec.Tag, &ec.Long); err {
+	case sql.ErrNoRows:
+		return nil
+	case nil:
+		var wq models.WeightedQuery
+		wq.ExcelCommand = ec
+		wq.Score = 4
+		queried_commands = append(queried_commands, wq)
+		return queried_commands
+	default:
+		panic(err)
+	}
+}
+
 func (a *App) getWeightedFunctionsContaining(function_string string) []models.WeightedQuery {
 	q := `SELECT * FROM excel_commands AS e WHERE LOWER(e.Function) LIKE '%' || $1 || '%'`
 
@@ -73,7 +95,7 @@ func (a *App) getWeightedFunctionsContaining(function_string string) []models.We
 
 		var wq models.WeightedQuery
 		wq.ExcelCommand = ec
-		wq.Score = 3
+		wq.Score = 2
 		queried_commands = append(queried_commands, wq)
 	}
 
