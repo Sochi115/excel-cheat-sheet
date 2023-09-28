@@ -1,83 +1,71 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <title>Excel Cheat Sheet</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src= "https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/htmx.org@1.9.5" integrity="sha384-xcuj3WpfgjlKF+FXhSQFQ0ZNr39ln+hwjN3npfM9VBnUskLolQAcN80McRIVOPuO" crossorigin="anonymous"></script>
-    <base href="http://localhost:1211/" target="">
-    <link href="css/style.css" rel="stylesheet">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script
+      src="https://unpkg.com/htmx.org@1.9.5"
+      integrity="sha384-xcuj3WpfgjlKF+FXhSQFQ0ZNr39ln+hwjN3npfM9VBnUskLolQAcN80McRIVOPuO"
+      crossorigin="anonymous"
+    ></script>
+    <base href="http://localhost:1211/" target="" />
+    <link href="css/style.css" rel="stylesheet" />
   </head>
-  <body class="min-h-screen max-h-screen min-w-screen flex flex-col bg-[#feffff]">
-    <header 
-        class="grid align-middle h-20">
-      <h1 class="text-5xl ml-20 self-center font-bold text-left"
-          >
-        <a id="title" 
-          href="/" 
-          class="text-[#3aafa9] hover:text-[#2b7a78]"
-          >EXCEL CHEAT SHEET</a>
+  <body
+    class="min-h-screen max-h-screen min-w-screen flex flex-col bg-[#feffff]"
+  >
+    <header class="grid align-middle h-20">
+      <h1 class="text-5xl ml-20 self-center font-bold text-left">
+        <a id="title" href="/" class="text-[#3aafa9] hover:text-[#2b7a78]"
+          >EXCEL CHEAT SHEET</a
+        >
       </h1>
     </header>
     <div class="flex-1">
       <div class="flex flex-row" id="main-area">
-        <div class="basis-2/12">
-        </div>
+        <div class="basis-2/12"></div>
         <!-- Search Bar -->
         <div class="basis-8/12 mt-8 flex flex-col">
-          <input class="input max-h-16 flex-1 rounded-lg text-3xl border-2 border-gray-800 px-4 py-2 my-2" 
-                 style="color:#17252a"
-                 type="searchbar" 
-                 name="q"
-                 placeholder="Search..." 
-                 autofocus=true
-                 hx-get="/search"
-                 hx-target="#db-items"
-                 hx-trigger="keyup changed delay:500ms">
+          <input
+            class="input max-h-16 flex-1 rounded-lg text-3xl border-2 border-gray-800 px-4 py-2 my-2"
+            style="color: #17252a"
+            type="searchbar"
+            name="q"
+            placeholder="Search..."
+            autofocus="true"
+            hx-get="/search"
+            hx-target="#db-items"
+            hx-trigger="keyup changed delay:500ms"
+          />
 
-          <div class="h-4">
-            
-          </div>
-        <!-- End Search Bar -->
+          <div class="h-4"></div>
+          <!-- End Search Bar -->
           <!-- Commands list -->
           <div id="db-items">
             {{ range . }}
             <div
               id="function-item"
-              class="h-16 
-                    flex 
-                    gap-x-6 
-                    rounded-lg 
-                    p-3 
-                    overflow-hidden 
-                    font-medium
-                    text-[#feffff]
-                    hover:text[#def2f1]
-                    bg-[#3aafa9]
-                    hover:bg-[#2b7a78]"
-              hx-get="/{{ .Function }}" 
-              hx-target="#main-area" 
-              hx-trigger="click">
+              class="h-16 flex gap-x-6 rounded-lg p-3 overflow-hidden font-medium text-[#feffff] hover:text[#def2f1] bg-[#3aafa9] hover:bg-[#2b7a78]"
+              hx-get="/{{ .Function }}"
+              hx-target="#main-area"
+              hx-trigger="click"
+            >
               <div class="flex-none w-36 self-center justify-center">
-                    {{ .Function }}
+                {{ .Function }}
               </div>
-              <div class= "flex-none w-64 self-center overflow-auto">
-                    {{ .Desc }}
+              <div class="flex-none w-64 self-center overflow-auto">
+                {{ .Desc }}
               </div>
-              <div class= "flex-1 self-center overflow-auto">
-                    {{ .Syntax }}
-              </div>
+              <div class="flex-1 self-center overflow-auto">{{ .Syntax }}</div>
             </div>
-            <div class="h-2">
-              
-            </div>
+            <div class="h-2"></div>
             {{ end }}
           </div>
           <!-- Commands list end -->
         </div>
-        <div class="basis-2/12">
-        </div>
+        <div class="basis-2/12"></div>
       </div>
     </div>
   </body>
