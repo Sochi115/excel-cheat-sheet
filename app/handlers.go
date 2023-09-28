@@ -51,6 +51,14 @@ func (a *App) searchQuery(w http.ResponseWriter, r *http.Request) {
 		}
 
 		result := a.combineQueryResults(queryResults...)
+
+		if len(result) == 0 {
+			ec := models.ExcelCommand{}
+			ec.Function = "ERROR"
+			ec.Desc = "Function " + query + " was not found"
+			ec.Syntax = ""
+			result = append(result, ec)
+		}
 		tmpl.Execute(w, result)
 	}
 }
