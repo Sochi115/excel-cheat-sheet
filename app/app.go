@@ -6,6 +6,8 @@ import (
 	"log"
 	"net/http"
 	"os"
+
+	"github.com/savioxavier/termlink"
 )
 
 type App struct {
@@ -28,10 +30,12 @@ func (a *App) Run() {
 	fs := http.FileServer(http.Dir("templates/excel_images"))
 	port := ":1211"
 
+	link := "http://localhost" + port
+
 	http.Handle("/excel_images/", http.StripPrefix("/excel_images", fs))
 	http.HandleFunc("/", a.mainPage)
 	http.HandleFunc("/search", a.searchQuery)
 
-	fmt.Println("Serving on port", port)
+	fmt.Println(termlink.Link("Click here", link))
 	log.Fatal(http.ListenAndServe(port, nil))
 }
